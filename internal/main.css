@@ -1,0 +1,134 @@
+.xc-body * {margin: 0; padding: 0; font-family: Tahoma; font-size: 14px; box-sizing: border-box;}
+@media screen and (min-width: 620px) {
+    .xc-body * {font-size: 16px;}
+}
+.xc-body {background: #FFC;}
+
+/* алаптивные элементы */
+.xc-row {}
+.xc-row::after {content: ""; clear: both; display: block;}
+.xc-col {float: left; width: 33%; padding-right: 1em; margin-top: 0.5em;}
+
+.xc-align-box {vertical-align: top;}
+.xc-align-box::after {content: ""; clear: both; display: block;}
+.xc-align-right {float: right;}
+.xc-align-left {float: left;}
+
+.xc-body h2 {font-size: 130%; margin: 1em 0 0.3em 0;}
+.xc-block-frame {border: thin solid silver;}
+.xc-body hr {border-top: thin solid silver; border-bottom: none;}
+.xc-block-inner { padding: 0.5em 1em;}
+.xc-body button {border: none; outline: none;}
+/* Кнопка сабмита */
+.xc-submit {color: #fff; background-color: #8bc540; padding: 1em 2em;}
+.xc-submit:hover {background-color: #7aac38;}
+.xc-submit.disabled {background-color: #aaa; color: #777;}
+/* Отступ сверху для Согласия на обработку данных */
+.rn-ctrl[data-name=agree] {padding-top: 0.5em;}
+
+.xc-title {display: block; font-size: 80%; color: #677B82; padding: 0 0 0.2em 0.3em;}
+.xc-horiz-item {display: inline-block; margin-right: 1em;}
+.xc-vert-item {padding: 0 0 0.2em 0;}
+.xc-help:after {
+    display: inline-block; width: 1.2em; height: 1.2em;
+    background: #DDD; color: #333;
+    border-radius: 100%;
+    text-align: center;
+    content: "?";
+}
+
+/* Невалидные контроллеры */
+.xc-body .invalid input, .xc-body .invalid select {box-shadow: 0 0 5px red;}
+
+/* Строки */
+.rn-ctrl input[type=text] {width: 100%;}
+
+/* Строки */
+.xc-body input[type=text] {
+    height: 2em;
+    padding: 0 1em;
+    box-sizing: border-box;
+    outline: none;
+    color: #2c3a3f;
+    border: thin solid #d8d8d8;
+    border-radius: 4px;
+    background: transparent;
+}
+
+/* Droplist */
+.xc-body select {
+    padding: 0 36px 0 14px;
+    line-height: 32px;
+    height: 32px;
+    border: 1px solid #d8d8d8;
+    border-radius: 4px;
+    cursor: default;
+    outline: none;
+    color: #2c3a3f;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 13 8"><path class="path" fill="#2C3A3F" fill-rule="evenodd" d="M6.036 5.245L10.66.621l1.414 1.415-5.66 5.66-.377-.378-.378.379-5.66-5.66L1.413.623l4.623 4.622z"></path></svg>') no-repeat 95% transparent;
+    -webkit-appearance: none;
+    min-width: 8em;
+    width: 100%;
+}
+
+/* Чекбоксы */
+.xc-body input[type=checkbox] {
+    margin: 4px 0 0;
+    border-radius: 3px;
+    width: 20px;
+    height: 20px;
+    left: 0;
+    display: inline-block;
+    background-color: #FFF;
+    border: 1px solid #d8d8d8;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    left: 0;
+    top: 4px;
+    padding: 3px;
+    position: relative;
+}
+.xc-body input[type=checkbox]:checked {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAKCAYAAABv7tTEAAAAAXNSR0IArs4c6QAAAHtJREFUKBWNkLEKgCAURZ1bg5b2oKAP6E/7mGpoaG7vB1rbg9d5kuCivgsHE+8x1TljRKSFA0aT8gsXo2YpSpT0D0E4+a6zUlJgoYEZqniHpKAlFlfQbOBFxvyRKPRwg0bFDsp3oBSLL3ON6dIDxcfXLUJ4AIQJdsg+6wcPn85YghvZYwAAAABJRU5ErkJggg==) #82bf00 no-repeat center center;
+    border-color: #82bf00;
+    transition: border-color 0.3s ease-out, background-color 0.3s ease-out;
+}
+
+.xc-body input[type=checkbox]:focus {
+    outline: none;
+}
+/* Radio */
+.xc-body input[type=radio] {
+    margin: 4px 0 0;
+    box-sizing: border-box;
+    position: relative;
+    -webkit-appearance: none;
+    left: 0;
+    top: 4px;
+    padding: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid #d8d8d8;
+    -webkit-transition: border-color 0.3s ease-out;
+    transition: border-color 0.3s ease-out;
+}
+.xc-body input[type=radio]:focus {
+    outline: none;
+}
+.form-group input[type=radio].invalid {
+    border-color: #F00;
+}
+.xc-body input[type=radio]::before {
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #fff;
+    -webkit-transition: background-color 0.3s ease-out;
+    transition: background-color 0.3s ease-out;
+    content: '';
+}
+.xc-body input[type=radio]:checked::before {
+    background-color: #82bf00;
+}

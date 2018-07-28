@@ -1,0 +1,9 @@
+h1 {color: #345;}
+body > div {text-align: center;}
+.header {background: #CCC;}
+.content {
+    display: inline-block;
+    max-width: 900px;
+    width: 100%;
+    text-align: left;
+}

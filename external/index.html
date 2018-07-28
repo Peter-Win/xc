@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0">
+    <title>Example for external calculator</title>
+    <link rel='stylesheet' href='./native.css' />
+
+    <!-- First block -->
+    <!-- path = localhost:2999 -->
+    <script src='http://localhost:2999/xc/main.js'></script>
+    <link rel='stylesheet' href='http://localhost:2999/xc/main.css' />
+</head>
+<body>
+    <div class='header'>
+        <div class='content'>
+            <h1>Демонстрационная страница</h1>
+        </div>
+    </div>
+    <div>
+    <div class='content'>
+        <p>
+            Это какой-то текст...
+        </p>
+        <p>А дальше встроенный калькулятор</p>
+        <!-- Second block -->
+        <div id='XC'></div>
+        <script>_$xc.init('XC');</script>
+        <p>Продолжение демо-страницы...</p>
+    </div>
+    </div>
+</body>
+</html>

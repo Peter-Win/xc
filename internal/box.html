@@ -1,0 +1,107 @@
+<div class='xc-body'>
+    <!-- Всё это прототип -->
+    <script src='/xc/jquery.js'></script>
+    <script src='/xc/radon2.js'></script>
+    <script src='/xc/example.js'></script>
+
+    <div class='rn-page' data-name='main'>
+        <form class='rn-form'>
+
+            <div class='xc-block-frame'>
+                <div class='xc-block-inner'>
+                    <h2>Рассчитать ипотеку</h2>
+                    <div class='rn-ctrl' data-type='Droplist' data-name='program0'
+                         data-title="Ипотечная программа!" data-options="TmPrograms" data-value0='1'>
+                    >
+                    </div>
+                    <div class="rn-ctrl" data-type="Radiobox" data-name="method" data-title=""
+                         data-options="_xcMethods" data-option_value="@" data-option_label='#' data-value0="byCost"
+                         data-radio_tm="TmRadioItemHoriz"></div>
+                    <div class='rn-ctrl' data-type='Radiobox' data-name='monthIncomeType'
+                         data-options="_xcMonthlyIncomes" data-value0='good'
+                         data-title='Ежемесячный доход подтверждаю' data-radio_tm='TmRadioItemVert'></div>
+
+                    <h2>Оформить заявку</h2>
+                    <p>В течение дня с вами свяжется менеджер</p>
+                    <div class='xc-row'>
+                        <div class='xc-col rn-ctrl' data-type='String' data-name='lastName' data-title='Фамилия'>
+                            <b class='rn-validator' data-type='NonEmpty'></b>
+                        </div>
+                        <div class='xc-col rn-ctrl' data-type='String' data-name='firstName' data-title='Имя'>
+                            <b class='rn-validator' data-type='NonEmpty'></b>
+                        </div>
+                        <div class='xc-col rn-ctrl' data-type='String' data-name='middleName' data-title='Отчество'>
+                            <b class='rn-validator' data-type='NonEmpty'></b>
+                        </div>
+                        <!-- Ипотечная программа -->
+                        <div class='xc-col rn-ctrl' data-type='Droplist' data-name='program'
+                             data-title="Ипотечная программа" data-options="TmPrograms" data-value0=''>
+                            <b class='rn-validator' data-type='NonEmpty'></b>
+                        </div>
+                        <select id='TmPrograms' style='display: none;'>
+                            <option value=''></option>
+                            <option value='1'>Новостройка</option>
+                            <option value='2'>Готовое жильё</option>
+                            <option value='3'>Перекредитование</option>
+                            <option value='4'>Под залог квартиры</option>
+                        </select>
+                        <!-- телефон -->
+                        <div class='xc-col rn-ctrl' data-type='String' data-name='phone' data-title='Телефон'>
+                            <b class='rn-validator' data-type='NonEmpty'></b>
+                        </div>
+                        <!-- e-mail -->
+                        <div class='xc-col rn-ctrl' data-type='String' data-name='email' data-title='E-mail'>
+                            <b class='rn-validator' data-type='NonEmpty'></b>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class='xc-align-box xc-block-inner'>
+                    <div class='xc-align-left rn-ctrl' data-type='Checkbox' data-name='agree' data-tm='TmCtrlAgree'>
+                        <b class='rn-validator' data-type='NonEmpty'></b>
+                    </div>
+                    <div class='xc-align-right'>
+                        <button type='submit' class='rn-submit xc-submit'>Отправить заявку</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script id="TmCtrlString" type="text/html">
+        <div>
+            <span class="xc-title">{{title}}</span>
+            <input type="{{input_type}}" name="{{name}}"
+                   {{#maxlength}}maxlength="{{maxlength}}"{{/maxlength}}
+            {{#placeholder}}placeholder="{{placeholder}}"{{/placeholder}} />
+        </div>
+    </script>
+    <script id="TmCtrlDroplist" type="text/html">
+        <div>
+            <span class="xc-title">{{title}}</span>
+            <select name="{{name}}"></select>
+        </div>
+    </script>
+    <script id='TmCtrlCheckbox' type='text/html'>
+        <label><input type='checkbox' name='{{name}}'></label>
+    </script>
+    <script id='TmCtrlAgree' type='text/html'>
+        <label><input type='checkbox' name='{{name}}'> Согласен на обработку персональных данных</label>
+    </script>
+    <script id="TmCtrlRadiobox" type="text/html">
+        <div>
+            {{#title}}<span class="xc-title">{{title}}</span>{{/title}}
+            <div class="rn-radiobox"></div>
+        </div>
+    </script>
+    <script id="TmRadioItemHoriz" type="text/html">
+        <div class='xc-horiz-item'>
+            <label><input type="radio" name="{{name}}" value="{{value}}" /> {{label}} </label>
+        </div>
+    </script>
+    <script id="TmRadioItemVert" type="text/html">
+        <div class='xc-vert-item'>
+            <label><input type="radio" name="{{name}}" value="{{value}}" /> {{label}} </label>
+            {{#help}}<span class='xc-help' title='{{help}}'></span>{{/help}}
+        </div>
+    </script>
+</div>

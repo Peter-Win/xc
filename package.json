@@ -1,0 +1,22 @@
+{
+  "name": "xc",
+  "version": "1.0.0",
+  "description": "External Calculator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Peter-Win/xc.git"
+  },
+  "author": "PeterWin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Peter-Win/xc/issues"
+  },
+  "homepage": "https://github.com/Peter-Win/xc#readme",
+  "devDependencies": {
+    "express": "^4.16.3"
+  }
+}
