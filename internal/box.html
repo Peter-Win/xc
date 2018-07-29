@@ -6,20 +6,22 @@
 
     <div class='rn-page' data-name='main'>
         <form class='rn-form'>
+            <div class="xc-block-vert">
+                <h2>Рассчитать ипотеку</h2>
+                <div class='rn-ctrl' data-type='Droplist' data-name='program0'
+                     data-title="Ипотечная программа!" data-options="TmPrograms" data-value0='1'>
+                    >
+                </div>
+                <div class="rn-ctrl" data-type="Radiobox" data-name="method" data-title=""
+                     data-options="_xcMethods" data-option_value="@" data-option_label='#' data-value0="byCost"
+                     data-radio_tm="TmRadioItemHoriz"></div>
+                <div class='rn-ctrl' data-type='Radiobox' data-name='monthIncomeType'
+                     data-options="_xcMonthlyIncomes" data-value0='good'
+                     data-title='Ежемесячный доход подтверждаю' data-radio_tm='TmRadioItemVert'></div>
+            </div>
 
             <div class='xc-block-frame'>
                 <div class='xc-block-inner'>
-                    <h2>Рассчитать ипотеку</h2>
-                    <div class='rn-ctrl' data-type='Droplist' data-name='program0'
-                         data-title="Ипотечная программа!" data-options="TmPrograms" data-value0='1'>
-                    >
-                    </div>
-                    <div class="rn-ctrl" data-type="Radiobox" data-name="method" data-title=""
-                         data-options="_xcMethods" data-option_value="@" data-option_label='#' data-value0="byCost"
-                         data-radio_tm="TmRadioItemHoriz"></div>
-                    <div class='rn-ctrl' data-type='Radiobox' data-name='monthIncomeType'
-                         data-options="_xcMonthlyIncomes" data-value0='good'
-                         data-title='Ежемесячный доход подтверждаю' data-radio_tm='TmRadioItemVert'></div>
 
                     <h2>Оформить заявку</h2>
                     <p>В течение дня с вами свяжется менеджер</p>
