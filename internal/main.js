@@ -37,19 +37,25 @@ var _$xc = new function () {
 					if (this.status == 200) {
 						mainBox.innerHTML = this.response;
 						// Этот код для прототипа
-						var scripts = ['jquery', 'radon2', 'example'], counter = scripts.length;
-						function loadScript(src) {
-							var elem = document.createElement('script');
-							document.body.appendChild(elem);
-							elem.setAttribute('src', xcContentPath+'/'+src+'.js');
-							elem.addEventListener('load', function () {
-								if (!--counter) {
-									Rn.bPageSwitch=0;
-									Rn.init('main');
-								}
-							});
+						// Скрипты загружаются по очереди, т.к. следующий уже может использовать любой предыдущий
+						var scripts = ['radon2', 'example'];
+						// если на странице уже подключен jQuery, используем его
+						if (!window.jQuery) scripts.unshift('jquery');
+						function loadScript(index) {
+							if (index >= scripts.length) {
+								Rn.bPageSwitch=0;
+								Rn.init('main');
+							} else {
+								var src = scripts[index];
+								var elem = document.createElement('script');
+								document.body.appendChild(elem);
+								elem.setAttribute('src', xcContentPath+'/'+src+'.js');
+								elem.addEventListener('load', function () {
+									loadScript(index + 1);
+								});
+							}
 						}
-						for (var i in scripts) loadScript(scripts[i]);
+						loadScript(0);
 						///////////////////////
 					} else {
 						mainBox.innerHTML = 'Error ' + this.status;

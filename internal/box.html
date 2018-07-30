@@ -5,24 +5,60 @@
     <script src='/xc/example.js'></script>
 
     <div class='rn-page' data-name='main'>
-        <form class='rn-form'>
-            <div class="xc-block-vert">
+        <form class='rn-form' name="main" data-type="Calc">
+            <div class="xc-block-vert xc-row">
                 <h2>Рассчитать ипотеку</h2>
+                <div class="xc-calc-left">
                 <div class='rn-ctrl' data-type='Droplist' data-name='program0'
-                     data-title="Ипотечная программа!" data-options="TmPrograms" data-value0='1'>
+                     data-title="Ипотечная программа" data-options="TmPrograms" data-value0='1'>
                     >
                 </div>
                 <div class="rn-ctrl" data-type="Radiobox" data-name="method" data-title=""
                      data-options="_xcMethods" data-option_value="@" data-option_label='#' data-value0="byCost"
                      data-radio_tm="TmRadioItemHoriz"></div>
-                <div class='rn-ctrl' data-type='Radiobox' data-name='monthIncomeType'
+                <!-- по стоимости недвижимости -->
+                <div class="rn-ctrl" data-type="String" data-name="cost" data-value0="1000000"
+                    data-title="Стоимость недвижимости" data-suffix="₽">
+                    <b class="rn-validator" data-type="Integer"></b>
+                    <i class="rn-filter" data-type="Number"></i>
+                </div>
+                <div class="rn-ctrl" data-type="Checkbox" data-name="useMother" data-title="Использую материнский капитал"
+                    data-help="Материнский капитал планируется направить на досрочное погашение кредита, сумма первоначального взноса может быть сокращена."></div>
+                <!-- по доходу -->
+                <div class="rn-ctrl" data-type="String" data-name="monthlyIncome" data-value0="40000"
+                     data-title="Ежемесячный доход" data-suffix="₽">
+                    <i class="rn-filter" data-type="Number"></i>
+                </div>
+                <!-- общие -->
+                <div class='rn-ctrl' data-type='Radiobox' data-name='monthIncomeTypeType'
                      data-options="_xcMonthlyIncomes" data-value0='good'
                      data-title='Ежемесячный доход подтверждаю' data-radio_tm='TmRadioItemVert'></div>
+                </div>
+                <div class="xc-calc-right" style="background: #CCC;">
+                    Результаты вычислений
+                    <div class="xc-calc-results"></div>
+                    <script id="TmCalcResults" type="text/html">
+                        {{#bErrors}}
+                        <div>Нужно ввести корректные данные</div>
+                        {{/bErrors}}
+                        {{^bErrors}}
+                        <div>
+                            <div>Ипотечная программа: <b>{{programStr}}</b></div>
+                        {{#isByCost}}
+                            <div>Стоимость недвижимости = {{costFmt}} р.</div>
+                        {{/isByCost}}
+                        {{#isByIncome}}
+                            <div>Ежемесячный доход = {{monthlyIncomeFmt}} p.</div>
+                        {{/isByIncome}}
+                        </div>
+                        {{/bErrors}}
+                    </script>
+                </div>
             </div>
-
+        </form>
+        <form class="rn-form" name="lead">
             <div class='xc-block-frame'>
                 <div class='xc-block-inner'>
-
                     <h2>Оформить заявку</h2>
                     <p>В течение дня с вами свяжется менеджер</p>
                     <div class='xc-row'>
@@ -84,7 +120,10 @@
         </div>
     </script>
     <script id='TmCtrlCheckbox' type='text/html'>
-        <label><input type='checkbox' name='{{name}}'></label>
+        <div>
+            <label><input type='checkbox' name='{{name}}'>{{title}}</label>
+            {{#help}}<span class="xc-help" title="{{help}}"></span>{{/help}}
+        </div>
     </script>
     <script id='TmCtrlAgree' type='text/html'>
         <label><input type='checkbox' name='{{name}}'> Согласен на обработку персональных данных</label>

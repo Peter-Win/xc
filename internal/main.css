@@ -2,12 +2,15 @@
 @media screen and (min-width: 620px) {
     .xc-body * {font-size: 16px;}
 }
-.xc-body {background: #FFC;}
+.xc-body {background: #EEE;} /* debug */
 
 /* алаптивные элементы */
 .xc-row {}
 .xc-row::after {content: ""; clear: both; display: block;}
 .xc-col {float: left; width: 33%; padding-right: 1em; margin-top: 0.5em;}
+/* вариант для широкого экрана */
+.xc-calc-left {float: left; width: 60%; padding-right: 1em;}
+.xc-calc-right {float: right; width: 40%;}
 
 .xc-align-box {vertical-align: top;}
 .xc-align-box::after {content: ""; clear: both; display: block;}
@@ -26,15 +29,16 @@
 /* Отступ сверху для Согласия на обработку данных */
 .rn-ctrl[data-name=agree] {padding-top: 0.5em;}
 
-.xc-title {display: block; font-size: 80%; color: #677B82; padding: 0 0 0.2em 0.3em;}
+.xc-title {display: block; font-size: 80%; color: #677B82; padding: 0.3em 0 0.1em 0.3em;}
 .xc-horiz-item {display: inline-block; margin-right: 1em;}
 .xc-vert-item {padding: 0 0 0.2em 0;}
 .xc-help:after {
     display: inline-block; width: 1.2em; height: 1.2em;
-    background: #DDD; color: #333;
+    background: #BBB; color: #333;
     border-radius: 100%;
     text-align: center;
     content: "?";
+    font-weight: bold;
 }
 
 /* Невалидные контроллеры */
@@ -73,7 +77,7 @@
 
 /* Чекбоксы */
 .xc-body input[type=checkbox] {
-    margin: 4px 0 0;
+    margin-right: .6em;
     border-radius: 3px;
     width: 20px;
     height: 20px;
