@@ -18,6 +18,7 @@
 .xc-align-left {float: left;}
 
 .xc-body h2 {font-size: 130%; margin: 1em 0 0.3em 0;}
+.xc-h3 {font-size: 100%; font-weight: bold; margin: 0.6em 0 0.3em 0;}
 .xc-block-frame {border: thin solid silver;}
 .xc-body hr {border-top: thin solid silver; border-bottom: none;}
 .xc-block-inner { padding: 0.5em 1em;}
@@ -28,6 +29,29 @@
 .xc-submit.disabled {background-color: #aaa; color: #777;}
 /* Отступ сверху для Согласия на обработку данных */
 .rn-ctrl[data-name=agree] {padding-top: 0.5em;}
+
+/* Редактируемая часть слайдера */
+.xc-editor {position: relative;}
+.xc-editor input {width: 100%; border: none; }
+.xc-editor .xc-suffix {position: absolute; right: 0.5em; top: 0.3em;}
+/* слайдер */
+.xc-slider-box {position: relative; height: 11px; margin-top: -8px;}
+.xc-slider-axis, .xc-slider-used {position: absolute; left:0; top:7px;}
+.xc-slider-axis {background: #BBB; right:0; height: 1px; }
+.xc-slider-used {background: #8bc540; width:0; z-index: 1; height: 2px; }
+.xc-slider-tracker {
+    display: inline-block;
+    position: absolute;
+    width: 15px; height: 15px;
+    background: #8bc540;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2;
+}
+.xc-legend-item {float:left; text-align: center; font-size: 80%;}
+.xc-legend-item.xc-first {text-align: left;}
+.xc-legend-item.xc-last {float: right; text-align: right}
+.xc-legend:after {content: ""; clear: both;}
 
 .xc-title {display: block; font-size: 80%; color: #677B82; padding: 0.3em 0 0.1em 0.3em;}
 .xc-horiz-item {display: inline-block; margin-right: 1em;}
