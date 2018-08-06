@@ -5,7 +5,14 @@
  * Created 2015-10-28 by PeterWin
  * Last modification: 2017-01-31
  */
- 
+/*!
+ * Radon
+ * Front-end data control system
+ * Version 2.0
+ * Created 2015-10-28 by PeterWin
+ * Last modification: 2017-01-31
+ */
+
 /*
  Radon.init(startPageName='start') - required for system initialization
  2016-08-19 - Добавлено свойство unique в Radiobox (Иначе проблемы при использовании внутри Array)
@@ -409,6 +416,8 @@ var Radon = new function() {
 		
 		ctrl.render();
 		ctrl.makeRequired();
+		ctrl.enable(!ctrl.disabled);
+
 		var vInit = {};
 		vInit.ctrlBegin = vInit.validator = vInit.filter = function(obj) {
 			obj.onInit();
@@ -445,7 +454,6 @@ var Radon = new function() {
 	}
 	
 	function openPage(page) {
-		_trace('openPage');
 		var visitor = {}
 		visitor.pageBegin = visitor.formBegin = visitor.ctrlBegin = function(obj) {
 			obj.onOpen();
@@ -804,7 +812,33 @@ var Radon = new function() {
 			suffix = expSrc.substring(k2+1);
 		return new RegExp(exp, suffix);
 	}
+
+	/**
+	 * Выполнить глубокую проверку иерархии контроллеров
+	 * @param {Object} object	Контроллер или форма
+	 * @param {Array<{msg:string, ctrl:Object}>=} errList	Список ошибок
+	 * @return {Array<{msg:string, ctrl:Object}>}	Список ошибок. Если указан параметр errList, то он же и возвращается
+	 */
+	self.checkDeep = function (object, errList) {
+		errList = errList || [];
+		var visitor = {
+			ctrlBegin: function(ctrl) {
+				var res = ctrl.check(errList);
+				if (res) {
+					errList.push({msg:res, ctrl:ctrl});
+				}
+				ctrl.lastErr = 0;
+			},
+			formEnd: function(form) {
+				form.check(errList);
+			}
+		};
+		object.walk(visitor);
+		return errList;
+	}
+
 }, Rn = Radon;
+
 
 var RadonObject = new function() {
 	this.onInit = this.onReset = this.onOpen = this.onClose = this.onUpdate = function() {
@@ -931,7 +965,9 @@ Rn.F.Base = function() {
 				result = form.result || false;
 			}
 		} catch (e) {
-			_trace('onSubmit error: ' + e.message);
+			if (window.console) {
+				console.error(e);
+			}
 		}
 		return result;
 	}
@@ -1011,37 +1047,31 @@ Rn.F.Base = function() {
 	 * Иначе - первый контроллер формы
 	 */
 	this.focus = function() {
-		var name, ctrls=this.ctrls;
+		var name, ctrls=this.ctrls, ctrls, first = 0, af = 0;
 		for (name in ctrls) {
-			return ctrls[name].focus();
+			ctrl = ctrls[name];
+			first = first || ctrl;
+			if (ctrl.autofocus && !af)
+				af = ctrl;
 		}
+		af = af || first;
+		if (af)
+			return af.focus();
 	}
 	
 	// Общая проверка формы. Вызывается после валидации всех контроллеров
 	// Переопределяется наследниками, чтобы добавить проверки, не связанные с каким-то контроллером
 	this.check = function(errList) {
 	}
-	
+
 	// Событие, вызываемое после обновления формы
 	// Служит для проверки валидности формы
 	this.postUpdate = function() {
 	
 		// собрать список ошибок
-		var i, ctrl, e, errList = [],
-		visitor = {
-			ctrlBegin: function(ctrl) {
-				var res = ctrl.check(errList);
-				if (res) {
-					errList.push({msg:res, ctrl:ctrl});
-				}
-				ctrl.lastErr = 0;
-			},
-			formEnd: function(form) {
-				form.check(errList);
-			}
-		};
-		this.walk(visitor);
-		
+		var i, ctrl, e, errList = [];
+		Rn.checkDeep(this, errList);
+
 		// Распределить ошибки по контроллерам
 		for (i in errList) {
 			e = errList[i];
@@ -1159,11 +1189,12 @@ Rn.V.Base.prototype = RadonObject;
 // Проверка на непустое значение контроллера
 Rn.V.NonEmpty = function() {
 	this.superClass = 'Base';
-	this.msg = 'Field must not be empty';
+	this.msg = Rn.V.NonEmpty.msg;
 	this.check = function(value) {
 		if (!value) return this.msg;
 	}
 }
+Rn.V.NonEmpty.msg = 'Field must not be empty';
 
 // Проверка значения с помощью регулярного выражения
 Rn.V.Regexp = function() {
@@ -1193,10 +1224,12 @@ Rn.V.Integer = function() {
 // Числовое значение, с ограничением снизу и сверху
 Rn.V.Range = function() {
 	this.superClass = 'Base';
-	this.msg = 'You must enter a numeric value';
-	this.msg_min = 'The value should not be less than {{min}}';
-	this.msg_max = 'The value must not be more than {{max}}';
+	this.msg = Rn.V.Range.msg;
+	this.msg_min = Rn.V.Range.msg_min;
+	this.msg_max = Rn.V.Range.msg_max;
 	this.check = function(value) {
+		if (value === '')
+			return;	// Не проверяем пустое значение, т.к. этим должен заниматься валидатор NonEmpty
 		var value = +this.ctrl.val();
 		if (isNaN(value))
 			return this.msg;
@@ -1206,6 +1239,9 @@ Rn.V.Range = function() {
 			return Rn.templText(this.msg_max, this);
 	}
 }
+Rn.V.Range.msg = 'You must enter a numeric value';
+Rn.V.Range.msg_min = 'The value should not be less than {{min}}';
+Rn.V.Range.msg_max = 'The value must not be more than {{max}}';
 
 // Контроль минимального количества символов в строке
 Rn.V.MinLength = function() {
@@ -1395,7 +1431,7 @@ Rn.C.Base = function() {
 			}
 		}
 	}
-	
+
 	/**
 	 * Вычислить, является ли элемент обязательным для заполнения
 	 * Для этого вызывается валидация пустой строки
@@ -2124,6 +2160,7 @@ Rn.C.Radiobox = Rn.C.RadioBox = function() {
 			if (ctrl.isValidOption(value, label))
 				ctrl.createOption(value, label, itemDef);
 		});
+		ctrl.val2dom();
 	}
 	
 	this.buildListOld = function() {

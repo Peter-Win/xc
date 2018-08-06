@@ -2,12 +2,15 @@
 @media screen and (min-width: 620px) {
     .xc-body * {font-size: 16px;}
 }
-.xc-body {background: #FFC;}
+.xc-body {background: #EEE;} /* debug */
 
 /* алаптивные элементы */
 .xc-row {}
 .xc-row::after {content: ""; clear: both; display: block;}
 .xc-col {float: left; width: 33%; padding-right: 1em; margin-top: 0.5em;}
+/* вариант для широкого экрана */
+.xc-calc-left {float: left; width: 60%; padding-right: 1em;}
+.xc-calc-right {float: right; width: 40%;}
 
 .xc-align-box {vertical-align: top;}
 .xc-align-box::after {content: ""; clear: both; display: block;}
@@ -15,6 +18,7 @@
 .xc-align-left {float: left;}
 
 .xc-body h2 {font-size: 130%; margin: 1em 0 0.3em 0;}
+.xc-h3 {font-size: 100%; font-weight: bold; margin: 0.6em 0 0.3em 0;}
 .xc-block-frame {border: thin solid silver;}
 .xc-body hr {border-top: thin solid silver; border-bottom: none;}
 .xc-block-inner { padding: 0.5em 1em;}
@@ -26,15 +30,39 @@
 /* Отступ сверху для Согласия на обработку данных */
 .rn-ctrl[data-name=agree] {padding-top: 0.5em;}
 
-.xc-title {display: block; font-size: 80%; color: #677B82; padding: 0 0 0.2em 0.3em;}
+/* Редактируемая часть слайдера */
+.xc-editor {position: relative;}
+.xc-editor input {width: 100%; border: none; }
+.xc-editor .xc-suffix {position: absolute; right: 0.5em; top: 0.3em;}
+/* слайдер */
+.xc-slider-box {position: relative; height: 11px; margin-top: -8px;}
+.xc-slider-axis, .xc-slider-used {position: absolute; left:0; top:7px;}
+.xc-slider-axis {background: #BBB; right:0; height: 1px; }
+.xc-slider-used {background: #8bc540; width:0; z-index: 1; height: 2px; }
+.xc-slider-tracker {
+    display: inline-block;
+    position: absolute;
+    width: 15px; height: 15px;
+    background: #8bc540;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2;
+}
+.xc-legend-item {float:left; text-align: center; font-size: 80%;}
+.xc-legend-item.xc-first {text-align: left;}
+.xc-legend-item.xc-last {float: right; text-align: right}
+.xc-legend:after {content: ""; clear: both;}
+
+.xc-title {display: block; font-size: 80%; color: #677B82; padding: 0.3em 0 0.1em 0.3em;}
 .xc-horiz-item {display: inline-block; margin-right: 1em;}
 .xc-vert-item {padding: 0 0 0.2em 0;}
 .xc-help:after {
     display: inline-block; width: 1.2em; height: 1.2em;
-    background: #DDD; color: #333;
+    background: #BBB; color: #333;
     border-radius: 100%;
     text-align: center;
     content: "?";
+    font-weight: bold;
 }
 
 /* Невалидные контроллеры */
@@ -73,7 +101,7 @@
 
 /* Чекбоксы */
 .xc-body input[type=checkbox] {
-    margin: 4px 0 0;
+    margin-right: .6em;
     border-radius: 3px;
     width: 20px;
     height: 20px;

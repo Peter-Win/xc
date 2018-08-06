@@ -5,22 +5,79 @@
     <script src='/xc/example.js'></script>
 
     <div class='rn-page' data-name='main'>
-        <form class='rn-form'>
-
-            <div class='xc-block-frame'>
-                <div class='xc-block-inner'>
-                    <h2>Рассчитать ипотеку</h2>
+        <form class='rn-form' name="main" data-type="Calc">
+            <div class="xc-block-vert xc-row">
+                <h2>Рассчитать ипотеку</h2>
+                <div class="xc-calc-left">
                     <div class='rn-ctrl' data-type='Droplist' data-name='program0'
-                         data-title="Ипотечная программа!" data-options="TmPrograms" data-value0='1'>
-                    >
+                         data-title="Ипотечная программа" data-options="TmPrograms" data-value0='1'>
+                        >
                     </div>
                     <div class="rn-ctrl" data-type="Radiobox" data-name="method" data-title=""
                          data-options="_xcMethods" data-option_value="@" data-option_label='#' data-value0="byCost"
                          data-radio_tm="TmRadioItemHoriz"></div>
-                    <div class='rn-ctrl' data-type='Radiobox' data-name='monthIncomeType'
+                    <!-- по стоимости недвижимости -->
+                    <div class="rn-ctrl" data-type="NumSlider" data-name="cost" data-legend="4"
+                         data-value0="1000000" data-min="650000" data-max="50000000" data-round="1000"
+                         data-title="Стоимость недвижимости" data-suffix="₽">
+                        <b class="rn-validator" data-type="Integer"></b>
+                        <i class="rn-filter" data-type="Number"></i>
+                    </div>
+                    <div class="rn-ctrl" data-type="Checkbox" data-name="useMother"
+                         data-title="Использую материнский капитал"
+                         data-help="Материнский капитал планируется направить на досрочное погашение кредита, сумма первоначального взноса может быть сокращена.">
+                    </div>
+                    <div class="xc-child-box">
+                        <div class="xc-h3">
+                            После 1 января 2018 в семье родился ребенок
+                            <span class="xc-help" title="Приобретение у юридического лица на первичном рынке"></span>
+                        </div>
+                        <div class="rn-ctrl" data-type="Checkbox" data-name="secondChild"
+                             data-title="Второй ребенок"></div>
+                        <div class="rn-ctrl" data-type="Checkbox" data-name="thirdChild"
+                             data-title="Третий ребенок"></div>
+                    </div>
+                    <!-- по доходу -->
+                    <div class="rn-ctrl" data-type="NumSlider" data-name="monthlyIncome" data-legend="4"
+                         data-value0="40000" data-min="10000" data-max="1000000" data-round="1000"
+                         data-title="Ежемесячный доход" data-suffix="₽">
+                        <i class="rn-filter" data-type="Number"></i>
+                    </div>
+                    <!-- общие -->
+                    <div class="xc-h3">Cрок кредита</div>
+                    <div class="rn-ctrl" data-type="NumSlider" data-name="termOfLoan" data-value0="3"
+                         data-min="3" data-max="30"
+                         data-title="" data-suffix="лет">
+                    </div>
+                    <div class='rn-ctrl' data-type='Radiobox' data-name='monthIncomeTypeType'
                          data-options="_xcMonthlyIncomes" data-value0='good'
                          data-title='Ежемесячный доход подтверждаю' data-radio_tm='TmRadioItemVert'></div>
-
+                </div>
+                <div class="xc-calc-right" style="background: #CCC;">
+                    Результаты вычислений
+                    <div class="xc-calc-results"></div>
+                    <script id="TmCalcResults" type="text/html">
+                        {{#bErrors}}
+                        <div>Нужно ввести корректные данные</div>
+                        {{/bErrors}}
+                        {{^bErrors}}
+                        <div>
+                            <div>Ипотечная программа: <b>{{programStr}}</b></div>
+                            {{#isByCost}}
+                            <div>Стоимость недвижимости = {{costFmt}} р.</div>
+                            {{/isByCost}}
+                            {{#isByIncome}}
+                            <div>Ежемесячный доход = {{monthlyIncomeFmt}} p.</div>
+                            {{/isByIncome}}
+                        </div>
+                        {{/bErrors}}
+                    </script>
+                </div>
+            </div>
+        </form>
+        <form class="rn-form" name="lead">
+            <div class='xc-block-frame'>
+                <div class='xc-block-inner'>
                     <h2>Оформить заявку</h2>
                     <p>В течение дня с вами свяжется менеджер</p>
                     <div class='xc-row'>
@@ -55,7 +112,7 @@
                         </div>
                     </div>
                 </div>
-                <hr />
+                <hr/>
                 <div class='xc-align-box xc-block-inner'>
                     <div class='xc-align-left rn-ctrl' data-type='Checkbox' data-name='agree' data-tm='TmCtrlAgree'>
                         <b class='rn-validator' data-type='NonEmpty'></b>
@@ -71,8 +128,23 @@
         <div>
             <span class="xc-title">{{title}}</span>
             <input type="{{input_type}}" name="{{name}}"
-                   {{#maxlength}}maxlength="{{maxlength}}"{{/maxlength}}
+                   {{#maxlength}}maxlength="{{maxlength}}" {{/maxlength}}
             {{#placeholder}}placeholder="{{placeholder}}"{{/placeholder}} />
+        </div>
+    </script>
+    <script id="TmCtrlNumSlider" type="text/html">
+        <div>
+            <span class="xc-title">{{title}}</span>
+            <div class="xc-editor">
+                <input type="text" name="{{name}}" />
+                {{#suffix}}<div class="xc-suffix">{{suffix}}</div>{{/suffix}}
+            </div>
+            <div class="xc-slider-box">
+                <div class="xc-slider-axis"></div>
+                <div class="xc-slider-used"></div>
+                <div class="xc-slider-tracker"></div>
+            </div>
+            <div class="xc-legend"></div>
         </div>
     </script>
     <script id="TmCtrlDroplist" type="text/html">
@@ -82,7 +154,10 @@
         </div>
     </script>
     <script id='TmCtrlCheckbox' type='text/html'>
-        <label><input type='checkbox' name='{{name}}'></label>
+        <div>
+            <label><input type='checkbox' name='{{name}}'>{{title}}</label>
+            {{#help}}<span class="xc-help" title="{{help}}"></span>{{/help}}
+        </div>
     </script>
     <script id='TmCtrlAgree' type='text/html'>
         <label><input type='checkbox' name='{{name}}'> Согласен на обработку персональных данных</label>
@@ -95,12 +170,12 @@
     </script>
     <script id="TmRadioItemHoriz" type="text/html">
         <div class='xc-horiz-item'>
-            <label><input type="radio" name="{{name}}" value="{{value}}" /> {{label}} </label>
+            <label><input type="radio" name="{{name}}" value="{{value}}"/> {{label}} </label>
         </div>
     </script>
     <script id="TmRadioItemVert" type="text/html">
         <div class='xc-vert-item'>
-            <label><input type="radio" name="{{name}}" value="{{value}}" /> {{label}} </label>
+            <label><input type="radio" name="{{name}}" value="{{value}}"/> {{label}} </label>
             {{#help}}<span class='xc-help' title='{{help}}'></span>{{/help}}
         </div>
     </script>
