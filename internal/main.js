@@ -3,6 +3,23 @@
  */
 var _$xc = new function () {
 	var xcContentPath = 'http:/localhost:2999/xc';
+	function toggleClass(elem, className, bEnable) {
+		var i, classSet = {}, classList = elem.getAttribute('class').split(' ');
+		for (i in classList) classSet[classList[i]] = 1;
+		if (bEnable) {
+			if (classSet[className])
+				return;	
+			classList.push(className);
+			
+		} else {
+			if (!classSet[className])
+				return;
+			delete classSet[className];
+			classList.length = 0;
+			for (i in classSet) classList.push(i);
+		}
+		elem.setAttribute('class', classList.join(' '));
+	}
 	this.init = function (mainBoxId) {
 		function loadMain() {
 			var mainBox = document.getElementById(mainBoxId);
@@ -12,13 +29,17 @@ var _$xc = new function () {
 			}
 			mainBox.innerHTML = 'Загрузка...';
 			// Имитация
-			var boxWidth = 0, curWidth = '33%';
+			var boxWidth = 0, curWidth = '33%', bWidePanelMode = true;
 			function updateWidth() {
 				var width = mainBox.clientWidth;
+				console.log('box width = ', width);
 				if (width !== boxWidth) {
+					// Колонки, обозначенные классом xc-col
 					boxWidth = width;
 					var newWidth = '33%';
-					if (boxWidth < 600) {
+					if (boxWidth < 400) {
+						newWidth = '100%';
+					} else if (boxWidth < 680) {
 						newWidth = '50%';
 					}
 					if (newWidth != curWidth) {
@@ -27,9 +48,25 @@ var _$xc = new function () {
 						var i = 0, n = list.length;
 						for (; i < n; i++) list[i].style.width = curWidth;
 					}
+					// Панели (левая и правая), обозначенные xc-calc-panel
+					var bWide = boxWidth >= 480;
+					if (bWide !== bWidePanelMode) {
+						bWidePanelMode = bWide;
+						var list = mainBox.getElementsByClassName('xc-calc-panel');
+						var i = 0, n = list.length;
+						for (; i < n; i++) {
+							toggleClass(list[i], 'xc-wide', bWide);
+						}
+						
+					}
+					
 				}
 			}
-			updateWidth();
+			function onReady() {
+				Rn.bPageSwitch=0;
+				Rn.init('main');
+				updateWidth();
+			}
 			window.addEventListener('resize', updateWidth);
 			var xhr = new XMLHttpRequest();
 			xhr.onreadystatechange = function() {
@@ -43,8 +80,7 @@ var _$xc = new function () {
 						if (!window.jQuery) scripts.unshift('jquery');
 						function loadScript(index) {
 							if (index >= scripts.length) {
-								Rn.bPageSwitch=0;
-								Rn.init('main');
+								onReady();
 							} else {
 								var src = scripts[index];
 								var elem = document.createElement('script');

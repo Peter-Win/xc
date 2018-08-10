@@ -9,8 +9,9 @@
 .xc-row::after {content: ""; clear: both; display: block;}
 .xc-col {float: left; width: 33%; padding-right: 1em; margin-top: 0.5em;}
 /* вариант для широкого экрана */
-.xc-calc-left {float: left; width: 60%; padding-right: 1em;}
-.xc-calc-right {float: right; width: 40%;}
+.xc-calc-left {}
+.xc-calc-right.xc-wide {float: right; width: 40%;}
+.xc-calc-left.xc-wide {float: left; width: 60%; padding-right: 1em;}
 
 .xc-align-box {vertical-align: top;}
 .xc-align-box::after {content: ""; clear: both; display: block;}
